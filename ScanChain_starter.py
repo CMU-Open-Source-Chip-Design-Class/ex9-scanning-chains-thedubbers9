@@ -7,7 +7,7 @@ from cocotb.triggers import Timer
 # to the filepath of the .log
 # file you are working with
 CHAIN_LENGTH = -1
-FILE_NAME    = ""
+FILE_NAME    = "adder/adder_out.sv"
 
 
 
@@ -83,6 +83,9 @@ def setup_chain(filename):
         cur_reg.first = new_list[0]
         cur_reg.last  = new_list[-1]
         scan_chain.chain_length += len(cur_reg.index_list)
+
+
+    CHAIN_LENGTH = scan_chain.chain_length
 
     return scan_chain
 
@@ -168,6 +171,7 @@ async def input_chain(dut, bit_list, ff_index):
 
     pass
 
+    
 #-----------------------------------------------
 
 # This function retrieves a single bit value from the
@@ -176,10 +180,16 @@ async def input_chain(dut, bit_list, ff_index):
 async def output_chain_single(dut, ff_index):
 
     ######################
-    # TODO: YOUR CODE HERE 
+    # TODO: YOUR CODE HERE
     ######################
 
-    pass       
+    dut.scan_en.value = 1
+    for i in range(0, CHAIN_LENGTH - ff_index):
+        await step_clock(dut)
+    
+    dut.scan_en.value = 0    
+
+    return dut.scan_out.value 
 
 #-----------------------------------------------
 
