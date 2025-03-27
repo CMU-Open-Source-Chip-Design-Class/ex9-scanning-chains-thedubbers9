@@ -125,8 +125,11 @@ async def step_clock(dut):
     ######################
     # TODO: YOUR CODE HERE 
     ######################
-
-    pass
+    await Timer(10, units="ns")
+    if (dut.clk.value == 0):
+        dut.clk.value = 1
+    else:
+        dut.clk.value = 0
     
 
 #-------------------------------------------------------------------
@@ -206,4 +209,6 @@ async def test(dut):
     ######################
     # TODO: YOUR CODE HERE 
     ######################
+
+    # chain has 
 
